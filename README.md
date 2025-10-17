@@ -1,29 +1,21 @@
 # Attendance Maintenance App
 
-## Overview
-This is a simple Attendance Maintenance App designed for backoffice staff to manage employee attendance effectively.
+This is a simple web application for maintaining attendance records. Users can add attendance records for employees and filter them by employee code.
 
 ## Features
 - Filter attendance records by employee code.
-- Input attendance status for employees.
-- Display summary of attendance records in a structured table.
+- Add attendance records with employee code, name, attendance status, and date.
+- Select a date using the calendar input, which dynamically updates the displayed date and corresponding day.
+
+## Usage
+1. Open the HTML file in a web browser.
+2. Use the text input to filter records by employee code.
+3. Select a date using the calendar input and then add attendance records.
 
 ## Technologies Used
-- HTML5
-- CSS3
-- JavaScript
-
-## Setup and Usage
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd attendance-maintenance-app
-   ```
-2. Open `index.html` in your preferred web browser.
-3. Follow the on-screen instructions to manage attendance records.
-
-## Contributing
-Feel free to contribute to improve the app. Submit pull requests or report issues.
+- HTML
+- CSS (Embedded)
+- JavaScript (Embedded)
 
 ## License
-This project is licensed under the MIT License.
+This project is open source and available under the MIT License.
