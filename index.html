@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Maintenance App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #e0e8ef);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4E73DF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type='text'] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4E73DF;
+            color: white;
+        }
+        .summary {
+            margin-top: 20px;
+            background-color: #f8f9fc;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Attendance Maintenance App</h1>
+    </header>
+    <div class="container">
+        <input type="text" id="employeeCode" placeholder="Filter by Employee Code" oninput="filterTable()">
+        <button onclick="addAttendance()">Add Attendance</button>
+        <div class="summary">
+            <h2>Summary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Code</th>
+                        <th>Name</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const attendance = [];
+        let idCounter = 1;
+
+        function addAttendance() {
+            const employeeCode = prompt("Enter Employee Code:");
+            const name = prompt("Enter Employee Name:");
+            const attendanceStatus = prompt("Enter Attendance (Present/Absent):");
+
+            if (employeeCode && name && attendanceStatus) {
+                attendance.push({
+                    employeeCode,
+                    name,
+                    attendance: attendanceStatus
+                });
+                updateTable();
+            }
+        }
+
+        function updateTable() {
+            const tableBody = document.getElementById('attendanceTable');
+            tableBody.innerHTML = '';
+            attendance.forEach((record) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${record.employeeCode}</td><td>${record.name}</td><td>${record.attendance}</td>`;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterTable() {
+            const filter = document.getElementById('employeeCode').value.toLowerCase();
+            const tableBody = document.getElementById('attendanceTable');
+            const rows = tableBody.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const employeeCode = cells[0].textContent || cells[0].innerText;
+                rows[i].style.display = employeeCode.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>
