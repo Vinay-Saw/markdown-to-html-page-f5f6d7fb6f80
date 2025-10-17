@@ -25,7 +25,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        input[type='text'] {
+        input[type='text'], input[type='date'] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -73,15 +73,19 @@
     </header>
     <div class="container">
         <input type="text" id="employeeCode" placeholder="Filter by Employee Code" oninput="filterTable()">
+        <input type="date" id="attendanceDate" onchange="displaySelectedDate()">
         <button onclick="addAttendance()">Add Attendance</button>
         <div class="summary">
             <h2>Summary</h2>
+            <p id="selectedDate">Selected Date: None</p>
+            <p id="selectedDay">Day: None</p>
             <table>
                 <thead>
                     <tr>
                         <th>Employee Code</th>
                         <th>Name</th>
                         <th>Attendance</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody id="attendanceTable">
@@ -91,20 +95,23 @@
     </div>
     <script>
         const attendance = [];
-        let idCounter = 1;
 
         function addAttendance() {
             const employeeCode = prompt("Enter Employee Code:");
             const name = prompt("Enter Employee Name:");
             const attendanceStatus = prompt("Enter Attendance (Present/Absent):");
+            const selectedDate = document.getElementById('attendanceDate').value;
 
-            if (employeeCode && name && attendanceStatus) {
+            if (employeeCode && name && attendanceStatus && selectedDate) {
                 attendance.push({
                     employeeCode,
                     name,
-                    attendance: attendanceStatus
+                    attendance: attendanceStatus,
+                    date: selectedDate
                 });
                 updateTable();
+            } else {
+                alert('Please fill in all fields.');
             }
         }
 
@@ -113,7 +120,7 @@
             tableBody.innerHTML = '';
             attendance.forEach((record) => {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${record.employeeCode}</td><td>${record.name}</td><td>${record.attendance}</td>`;
+                row.innerHTML = `<td>${record.employeeCode}</td><td>${record.name}</td><td>${record.attendance}</td><td>${record.date}</td>`;
                 tableBody.appendChild(row);
             });
         }
@@ -128,6 +135,19 @@
                 const employeeCode = cells[0].textContent || cells[0].innerText;
                 rows[i].style.display = employeeCode.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
             }
+        }
+
+        function displaySelectedDate() {
+            const dateInput = document.getElementById('attendanceDate').value;
+            const dateElement = document.getElementById('selectedDate');
+            const dayElement = document.getElementById('selectedDay');
+
+            const date = new Date(dateInput);
+            const options = { weekday: 'long' };
+            const day = date.toLocaleDateString('en-US', options);
+
+            dateElement.textContent = `Selected Date: ${dateInput}`;
+            dayElement.textContent = `Day: ${day}`;
         }
     </script>
 </body>
